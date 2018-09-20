@@ -1,6 +1,5 @@
 package pub.taotao.util;
 
-import java.util.Collections;
 import java.util.List;
 
 public class SortUtil {
@@ -51,16 +50,88 @@ public class SortUtil {
 
         return list;
     }
-    public static <T extends Comparable<? super T>>List<T> quickSort(List<T> list){
+
+    /**
+     * 快速排序
+     * @param list
+     * @param <T>
+     * @return
+     */
+    public static <T extends Comparable<? super T>>List<T> quickSort(List<T> list) {
+        return quickSort(list,0,list.size() - 1);
+    }
+
+    public static <T extends Comparable<? super T>>List<T> quickSort(List<T> list,int left,int right){
+        if(left >= right) return list;
+
+        int pivot = left;
+        int i = left,j = right;
+        T temp;
+        while(i < j){
+            while (list.get(j).compareTo(list.get(pivot)) > 0)//list[j] > list[pivot]
+                j--;
+            while (list.get(i).compareTo(list.get(pivot)) < 0)//list[i] < list[pivot]
+                i++;
+            //交换i和j的值
+            if(i < j) {
+                temp = list.get(i);
+                list.set(i, list.get(j));
+                list.set(j, temp);
+            }
+        }
+        //最终交换pivot和j的值，使得pivot处于中间
+        temp = list.get(j);
+        list.set(j, list.get(pivot));
+        list.set(pivot, temp);
+
+        quickSort(list,left,j - 1);
+        quickSort(list,j + 1,right);
         return list;
     }
+
+    /**
+     * 插入排序
+     * @param list
+     * @param <T>
+     * @return
+     */
     public static <T extends Comparable<? super T>>List<T> insertionSort(List<T> list){
+        int length = list.size();
+        int i,j;
+        T temp;
+        for(j = 1; j<length;j++){
+            for(i = 0;i <= j;i++){
+                //找到第一个比list[j]大的数，把list[j]插到这个数前面
+                if(list.get(i).compareTo(list.get(j)) > 0){//list[i]>list[j]
+                    temp = list.get(j);
+                    for(int k = j;k > i;k--){
+                        list.set(k,list.get(k-1));
+                    }
+                    list.set(i,temp);
+                    break;
+                }
+            }
+        }
         return list;
     }
+
+    /**
+     * 归并排序
+     * @param list
+     * @param <T>
+     * @return
+     */
     public static <T extends Comparable<? super T>>List<T> mergeSort(List<T> list){
         return list;
 
     }
+
+    /**堆排序
+     *
+     * @param list
+     * @param <T>
+     * @return
+     */
     public static <T extends Comparable<? super T>>List<T> heapSort(List<T> list){
         return list;
     }
