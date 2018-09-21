@@ -1,5 +1,7 @@
 package pub.taotao.util;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class SortUtil {
@@ -122,8 +124,38 @@ public class SortUtil {
      * @return
      */
     public static <T extends Comparable<? super T>>List<T> mergeSort(List<T> list){
+        return mergeSort(list,0,list.size()-1);
+    }
+    private static <T extends Comparable<? super T>>List<T> mergeSort(List<T> list,int begin,int end){
+        if(begin < end) {
+            int mid = (begin + end) >>> 1;
+            mergeSort(list,begin,mid);
+            mergeSort(list,mid + 1,end);
+            merge(list,begin,mid,end);
+        }
         return list;
+    }
 
+    private static <T extends Comparable<? super T>>void merge(List<T> list,int begin,int mid,int end){
+        List<T> temp = new ArrayList<>();
+        int i =begin,j=mid + 1;
+        while(i<=mid&&j<=end){
+            if(list.get(i).compareTo(list.get(j)) <= 0) {
+                temp.add(list.get(i++));
+            }else{
+                temp.add(list.get(j++));
+            }
+
+        }
+        while(i<=mid){//将左边剩余元素填充
+            temp.add(list.get(i++));
+        }
+        while(j<=end){//将右序列剩余元素填充
+            temp.add(list.get(j++));
+        }
+
+        for(T t:temp)
+            list.set(begin++,t);
     }
 
     /**堆排序
@@ -143,7 +175,7 @@ public class SortUtil {
      * @return 反转后的数组
      */
     public static <T>List<T> reverse(List<T> list){
-        int halfLen = list.size() / 2;
+        int halfLen = list.size() >>> 1;
         int length = list.size() - 1;
         T temp;
         for (int i = 0; i < halfLen; i++){

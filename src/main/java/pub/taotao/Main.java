@@ -15,7 +15,7 @@ public class Main {
         }
         System.out.println(list);
         System.out.println(SortUtil.reverse(list));
-        SortUtil.insertionSort(list);
+        SortUtil.mergeSort(list);
         System.out.println(list);
     }
 }
